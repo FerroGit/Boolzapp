@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8'>
+    <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+    <title>Boolzapp</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <meta name='viewport' content='width=device-width, initial-scale=1'>
+    <link rel='stylesheet' type='text/css' media='screen' href='css/style.css'>
+    <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css">
+</head>
+
+    <body>
+        <div id="app" class="container">
+            <!-- NAV-BAR LATERALE -->
+            <aside>
+                <!-- user section -->
+                <div class="utente">
+                    <div class="logo">
+                        <img src="img/avatar_1.jpg" alt="avatar">
+                        <span><strong>Lorenzo Ferretti</strong></span>
+                    </div>
+
+
+
+                    <div class="icon">
+                        <i class="fas fa-circle-notch"></i>
+                        <i class="fas fa-comment-alt"></i>
+                        <i class="fas fa-ellipsis-v"></i>
+                    </div>
+                </div>
+
+                <!-- notice section -->
+                <div class="notice-section">
+                    <i class="fas fa-bell-slash"></i>
+                    <div class="text-notice">
+                        <p><strong>Ricevi notifiche di nuovi messaggi</strong></p>
+                        <a href="#">
+                            <p>Attiva notifiche desktop</p>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- search section -->
+                <div class="search-section">
+                    <form action="/action_page.php">
+                        <div class="container-search">
+                            <a href=""><i class="fa fa-search"></i></a>
+                            <input type="text" placeholder="Cerca o inizia una nuova chat" class="form-control"
+                                @keyup="resultQuery" v-model="searchQuery"> <!-- v-model="resultQuery()" -->
+                        </div>
+                    </form>
+                </div>
+
+                <!-- chats  section -->
+                <div class="chat-section">
+                    <div :class="['contatto', index === indexContatti ? 'active' : '']" v-for="(element, index) in contatti"
+                        @click="contactActive(index)" v-if="element.display">
+                        <img :src="element.img" alt="#">
+                        <div class="text-chatUtente">
+                            <p><strong class=""></strong>{{element.nome}}</p>
+                            <p class="textpreview">{{element.chat[element.chat.length - 1].textChat}}</p>
+                        </div>
+                        <div class="data-timing">
+                            {{element.chat[element.chat.length - 1].dataChat}}
+                        </div>
+                    </div>
+
+                </div>
+            </aside>
+
+
+            <!--PARTE DX  -->
+            <main>
+                <!-- TOP BAR  -->
+                <section class="top-bar">
+                    <div class="chat-open">
+                        <img :src="contatti[indexContatti].img" alt="">
+                        <div class="text-chatAperta">
+                            <p><strong>{{contatti[indexContatti].nome}}</strong></p>
+                            <p>{{contatti[indexContatti].data}}</p>
+                        </div>
+                    </div>
+
+                    <div class="icon-openChat">
+                        <i class="fa fa-search"></i></a>
+                        <i class="fas fa-paperclip"></i>
+                        <i class="fas fa-ellipsis-v"></i>
+                    </div>
+                </section>
+
+                <!-- SECTION CHAT ROOM  -->
+                <section id="container-chat" class="chat-box">
+
+                    <div v-for="(element,index) in contatti[indexContatti].chat" :class="element.typeMessage">
+                        <span>{{element.textChat}}</span>
+                        <div class="data-timing chat">
+                            {{element.dataChat}}
+                        </div>
+                        <div class="info-message">
+                            <i class="fas fa-chevron-down" @click='dropdownMenu(index)'></i>
+                        </div>
+                        <ul class="dropdown" :class="{block : element.drop}">
+                            <li>Info Messaggio</li>
+                            <li>Rispondi</li>
+                            <li @click='deleteMsg(index)'>Cancella Messaggio</li>
+                        </ul>
+                    </div>
+
+                </section>
+
+
+                <!-- SECTION WRITE MESSAGE  -->
+                <section class="text-area">
+                    <i class="far fa-smile"></i>
+                    <input type="text" spaceholder="scrivi un messaggio" 
+                    v-model="textArea" 
+                    @keydown.enter="addMessage">
+                    <i class="fas fa-microphone" @click="addMessage"></i>
+                </section>
+
+            </main>
+        </div>    
+    </body>
+    <script src='js/script.js'></script>
+</html>
+
